@@ -49,4 +49,21 @@ Vue.directive('texto', {
     }
 }) // nome, e hooks das diretivas
 
+/*
+    além de bindings de valor, podemos tbm fazer binding de argumentos 
+    no vue 3 não temos suporte nativo a multiplos argumentos, então podemos passar apenas 1
+*/
+Vue.directive('posicao', {
+    created(el, binding) {
+        console.log(el, binding.arg, binding.value);
+
+        const posicoesPossiveis = ['relative', 'fixed', 'absolute'];
+        
+        if(posicoesPossiveis.includes(binding.arg)) {
+            el.style.position = binding.arg
+            el.style.top = `${binding.value}px`
+        }
+    }
+});
+
 Vue.mount('#app')
