@@ -66,4 +66,34 @@ Vue.directive('posicao', {
     }
 });
 
+/* é possível também fazer binding de modificadores */
+Vue.directive('informacao', {
+    created(el, binding) {
+        console.log(el, binding.arg, binding.modifiers, binding.value);
+
+        let funcao = function() {
+            let informacaoSpan = document.createElement('span');
+            informacaoSpan.style.position = 'absolute';
+            informacaoSpan.style.background = '#ddd';
+            informacaoSpan.style.padding = '2px';
+            informacaoSpan.innerText = binding.value;
+
+            el.appendChild(informacaoSpan);
+            
+            informacaoSpan.addEventListener('click', (event) => {
+                event.stopPropagation(); // evita a propagação de eventos do pai para o filho
+                informacaoSpan.remove();
+            });
+        }
+
+        if (binding.modifiers['umClickMouse']) {
+            el.addEventListener('click', funcao);
+        }
+
+        if (binding.modifiers['doisClicksMouse']) {
+            el.addEventListener('dblclick', funcao);
+        }
+    }
+})
+
 Vue.mount('#app')
